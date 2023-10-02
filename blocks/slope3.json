@@ -1,0 +1,74 @@
+{
+	"format_version": "1.19.40",
+	"minecraft:block": {
+		"description": {
+			"identifier": "spl:slopes3",
+			"menu_category": {
+				"category": "construction"
+			},
+            "properties": {
+                "spl:facing": [2, 3, 4, 5]
+              }
+		},
+		"components": {
+			"minecraft:collision_box":{
+				"origin": [-8.0,0,-8.0],
+				"size": [16,8,16]
+			},
+			"minecraft:selection_box":{
+				"origin": [-8.0,0.0,-8.0],
+				"size": [16.0,8.0,16.0]
+			},
+			"minecraft:destructible_by_mining": {
+				"seconds_to_destroy": 150
+			},
+			"minecraft:destructible_by_explosion": {
+				"explosion_resistance": 200
+			},
+			"minecraft:geometry": "geometry.slopes3",
+			"minecraft:material_instances": {
+				"*": {
+					"texture": "slopes",
+					"render_method": "blend"
+				}
+			},
+			"minecraft:on_player_placing": {
+				"event": "spl:place"
+			  },
+			"minecraft:map_color": "#004600"
+		},
+		"events": {
+			"spl:place": {
+			  "set_block_property": {
+				"spl:facing": "query.cardinal_facing_2d"
+			  }
+			}}
+			,
+        "permutations": [
+          {
+            "condition": "query.block_property('spl:facing') == 2",
+            "components": {
+              "minecraft:rotation": [0, 180, 0]
+            }
+          },
+          {
+            "condition": "query.block_property('spl:facing') == 3",
+            "components": {
+              "minecraft:rotation": [0, 0, 0]
+            }
+          },
+          {
+            "condition": "query.block_property('spl:facing') == 4",
+            "components": {
+              "minecraft:rotation": [0, 270, 0]
+            }
+          },
+          {
+            "condition": "query.block_property('spl:facing') == 5",
+            "components": {
+              "minecraft:rotation": [0, 90, 0]
+            }
+          }
+        ]
+	}
+}

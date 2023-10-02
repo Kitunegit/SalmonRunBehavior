@@ -1,0 +1,23 @@
+{
+    "format_version":"1.19.0",
+    "minecraft:item":{
+        "description":{
+            "identifier":"spl:splatter_charger",
+			"category": "Equipment"
+        },
+        "components":{
+            "minecraft:creative_category": {
+                "parent": "itemGroup.name.sword"
+            },
+        "minecraft:icon":{
+            "texture": "splatter_charger"
+        },
+        "minecraft:use_duration": 1000000,
+        "minecraft:chargeable":{
+            "movement_modifier": 0.2
+        }   
+        }
+        
+    }
+}
+

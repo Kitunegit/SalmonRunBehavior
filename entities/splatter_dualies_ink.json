@@ -1,0 +1,168 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "spl:splatter_dualies_ink",
+            "runtime_identifier": "minecraft:snowball",
+			"is_spawnable": false,
+			"is_summonable": true,
+			"is_experimental": false
+		},
+		"component_groups": {
+            "entity:despawn": {
+                "minecraft:despawn": {}
+            },
+            "spl:splatter_dualies_left": {
+            
+                "minecraft:projectile": {
+                "on_hit": {
+                    "remove_on_hit":{},
+                    "impact_damage":{
+                        "damage": 0
+                    }
+                
+            },
+            
+                "power": 1.6,
+                "gravity": 0,
+                "inertia": 0.99,
+                "angle_offset":-10,
+                "uncertainty_base": 2,
+                "anchor": 1,
+                "reflect_on_hurt": false,
+                "catch_fire": false,
+                "offset":[0.2,0,0]
+            },
+            "minecraft:timer": {
+                "time": 0.1,
+                "time_down_event": {
+                    "event": "spl:ink_fall",
+                    "target": "self"
+                }
+            }
+        },
+        "spl:splatter_dualies_right": {
+            
+            "minecraft:projectile": {
+            "on_hit": {
+                "remove_on_hit":{},
+                    "impact_damage":{
+                        "damage": 0
+                    }
+            
+        },
+        
+            "power": 1.6,
+            "gravity": 0,
+            "inertia": 0.99,
+            "angle_offset":-10,
+            "uncertainty_base": 6,
+            "anchor": 1,
+            "reflect_on_hurt": false,
+            "catch_fire": false,
+            "offset":[-0.2,0,0]
+        },
+        "minecraft:timer": {
+            "time": 0.1,
+            "time_down_event": {
+                "event": "spl:ink_fall",
+                "target": "self"
+            }
+        }
+    },
+        "spl:ink_fall":{
+            "minecraft:projectile": {
+                "on_hit": {
+                "remove_on_hit":{}
+            },
+            
+                "power": 0.45,
+                "gravity": 0.3,
+                "inertia": 0.99,
+                "angle_offset":-10,
+                "uncertainty_base": 6,
+                "anchor": 1,
+                "reflect_on_hurt": false,
+                "catch_fire": false,
+                "offset":[0,0.15,0]
+            }
+        },
+        "spl:splatter_dualies_slide": {
+            
+            "minecraft:projectile": {
+            "on_hit": {
+                "remove_on_hit":{},
+                    "impact_damage":{
+                        "damage": 0
+                    }
+            
+        },
+        
+            "power": 1.8,
+            "gravity": 0,
+            "inertia": 0.99,
+            "angle_offset":-10,
+            "uncertainty_base": 1,
+            "anchor": 1,
+            "reflect_on_hurt": false,
+            "catch_fire": false,
+            "offset":[-0,-1,0]
+        },
+        "minecraft:timer": {
+            "time": 0.1,
+            "time_down_event": {
+                "event": "spl:ink_fall",
+                "target": "self"
+            }
+        }
+    }
+    },
+		"components": {
+			"minecraft:physics": {
+			},
+			"minecraft:collision_box": {
+				"width": 1,
+				"height": 1
+			  },
+			"minecraft:health": {
+				"value": 500,
+				"max": 500
+			},
+			"minecraft:pushable": {
+			  "is_pushable": false,
+			  "is_pushable_by_piston": false
+			},
+			"minecraft:knockback_resistance": {
+				"value": 1
+			}
+		},
+		"events": {
+            "entity:despawn": {
+                "add": {
+                    "component_groups": [ "entity:despawn" ]
+                }
+            },
+            "spl:splatter_dualies_left": {
+                "add": {
+                    "component_groups": [ "spl:splatter_dualies_left" ]
+                } 
+            },
+            "spl:splatter_dualies_right": {
+                "add": {
+                    "component_groups": [ "spl:splatter_dualies_right" ]
+                } 
+            },
+            "spl:splatter_dualies_slide":{
+                "add": {
+                    "component_groups": ["spl:splatter_dualies_slide"]
+                }
+            },          
+            "spl:ink_fall":{
+                "add": {
+                    "component_groups": [
+                        "spl:ink_fall"
+                    ]
+                }
+            }}
+        }
+    }

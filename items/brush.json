@@ -1,0 +1,24 @@
+{
+    "format_version":"1.19.0",
+    "minecraft:item":{
+        "description":{
+            "identifier":"spl:brush",
+			"category": "Equipment"
+        },
+        "components":{
+            "minecraft:creative_category": {
+                "parent": "itemGroup.name.sword"
+            },
+        "minecraft:icon":{
+            "texture": "brush"
+        },
+        "minecraft:use_duration": 100000,
+        "minecraft:chargeable":{
+            "movement_modifier": 0.8
+        }
+        
+        }
+        
+    }
+}
+

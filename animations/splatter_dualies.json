@@ -1,0 +1,19 @@
+{
+    "format_version": "1.8.0",
+    "animations": {
+    "animation.splatter_dualies_shot_left": {
+      "animation_length": 0.5,
+      "loop": true,
+      "timeline": {
+        "0.0": [ "@s spl:splatter_dualies_left","@s spl:splatter_dualies_right"]
+      }
+    },
+    "animation.splatter_dualies_slide": {
+      "animation_length": 0.5,
+      "loop": true,
+      "timeline": {
+        "0.0": [ "@s spl:splatter_dualies_slide"]
+      }
+    }
+}
+}

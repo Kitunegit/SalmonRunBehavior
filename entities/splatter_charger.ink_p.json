@@ -1,0 +1,94 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "spl:splatter_charger_ink_p",
+            "runtime_identifier": "minecraft:snowball",
+			"is_spawnable": false,
+			"is_summonable": true,
+			"is_experimental": false
+		},
+		"component_groups": {
+            "entity:despawn": {
+                "minecraft:despawn": {}
+            },
+            "spl:splatter_charger_fullcharge_p": {
+            
+                "minecraft:projectile": {
+                "on_hit": {
+                    
+                    
+            },
+            
+                "power": 2.4,
+                "gravity": 0,
+                "inertia": 0.99,
+                "angle_offset":5,
+                "uncertainty_base": 0,
+                "anchor": 1,
+                "reflect_on_hurt": false,
+                "catch_fire": false,
+                "offset":[0,0.4,0]
+            },
+            "minecraft:timer": {
+                "time": 0.5,
+                "time_down_event": {
+                    "event": "spl:ink_fall",
+                    "target": "self"
+                }
+            }
+        },
+        "spl:ink_fall":{
+            "minecraft:projectile": {
+            
+                "power": 0,
+                "gravity": 100,
+                "inertia": 0.99,
+                "angle_offset":5,
+                "uncertainty_base": 6,
+                "anchor": 1,
+                "reflect_on_hurt": false,
+                "catch_fire": false,
+                "offset":[0,0.15,0]
+            }
+        }
+    },
+		"components": {
+			"minecraft:physics": {
+			},
+			"minecraft:collision_box": {
+				"width":1,
+				"height": 1
+			  },
+			"minecraft:health": {
+				"value": 500,
+				"max": 500
+			},
+			"minecraft:pushable": {
+			  "is_pushable": false,
+			  "is_pushable_by_piston": false
+			},
+			"minecraft:knockback_resistance": {
+				"value": 1
+			}
+		},
+		"events": {
+            "entity:despawn": {
+                "add": {
+                    "component_groups": [ "entity:despawn" ]
+                }
+            },
+            "spl:splatter_charger_fullcharge_p": {
+                "add": {
+                    "component_groups": [ "spl:splatter_charger_fullcharge_p" ]
+                } 
+            },
+            "spl:ink_fall":{
+                "add": {
+                    "component_groups": [
+                        "spl:ink_fall"
+                    ]
+                }
+            }}
+        }
+    }

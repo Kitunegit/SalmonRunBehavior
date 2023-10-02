@@ -1,0 +1,83 @@
+{
+	"format_version": "1.19.0",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "spl:big_salmon",
+			"is_spawnable": true,
+			"is_summonable": true,
+			"is_experimental": false
+		},
+		"components": {
+			"minecraft:collision_box": {
+				"width": 1,
+				"height": 3.2
+			},
+			"minecraft:health": {
+				"value": 400,
+				"max": 400
+			},
+			"minecraft:movement": {
+				"value": 0.2
+			},
+			"minecraft:underwater_movement": {
+				"value": 0.30
+			  },
+			"minecraft:movement.basic": {},
+      		"minecraft:jump.static": {},
+			"minecraft:navigation.generic": {
+				"can_swim": true,
+				"can_walk": true,
+				"can_path_over_water":true,
+				"can_sink":false,
+				"is_amphibious":true
+			},
+			"minecraft:physics": {
+			},
+			"minecraft:pushable": {
+				"is_pushable": true,
+				"is_pushable_by_piston": true
+			},
+			"minecraft:attack": {
+				"damage": 10
+			},
+			"minecraft:behavior.nearest_attackable_target": {
+				"priority": 1,
+				"must_see": false,
+				"reselect_targets": true,
+				"within_radius": 50,
+				"scan_interval": 10,
+				"entity_types": [
+					{
+						"filters": {
+							"any_of": [
+								{
+									"test": "is_family",
+									"subject": "other",
+									"value": "player"
+								}
+							]
+						},
+						"max_dist": 50
+					}
+				]
+			},
+			"minecraft:behavior.melee_attack": {
+				"priority": 2,
+				"reach_multiplier":1,
+				"track_target":true,
+				"cooldown_time":1.5
+			},
+			"minecraft:nameable": {
+                "allow_name_tag_renaming": true,
+                "always_show": true
+              },
+			"minecraft:conditional_bandwidth_optimization": {},
+			"minecraft:knockback_resistance": {
+				"value": 1
+			},
+			"minecraft:scale":{
+				"value": 1.5
+			}
+		}
+	}
+}

@@ -1,0 +1,142 @@
+{
+    "format_version": "1.19.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier":"spl:dummy",
+            "is_spawnable":true,
+            "is_summonable":true
+        },
+        "components": {
+			"minecraft:physics": {
+				"has_gravity": true
+			},
+			"minecraft:knockback_resistance":{
+				"value": 1
+			},
+            "minecraft:health": {
+                "value": 100,
+                "max": 100
+            },"minecraft:collision_box": {
+                "width": 0.6,
+                "height": 1.9
+              },
+              "minecraft:nameable": {
+                "allow_name_tag_renaming": true,
+                "always_show": true
+              }
+		},
+        "component_groups": {
+            "spl:health_100":{
+                "minecraft:health": {
+                    "value": 100,
+                    "max": 100
+                }
+            },"spl:health_400":{
+                "minecraft:health": {
+                    "value": 400,
+                    "max": 400
+                }
+            },"spl:health_40":{
+                "minecraft:health": {
+                    "value": 40,
+                    "max": 40
+                }
+            },"spl:health_1000":{
+                "minecraft:health": {
+                    "value": 1000,
+                    "max": 1000
+                }
+            },"spl:health_10000":{
+                "minecraft:health": {
+                    "value": 10000,
+                    "max": 10000
+                }
+            },"spl:health_muteki":{
+                "minecraft:health": {
+                    "value": 100000000,
+                    "max": 100000000
+                }
+            },
+            "spl:scale_1.5":{
+                "minecraft:scale": {
+                    "value": 1.5
+                }
+            },
+            "spl:scale_2":{
+                "minecraft:scale": {
+                    "value": 2.0
+                }
+            },
+            "spl:scale_0.5":{
+                "minecraft:scale": {
+                    "value": 0.5
+                }
+            }
+        },
+        "events": {
+            "spl:health_100":{
+                "add": {
+                    "component_groups": [
+                        "spl:health_100"
+                    ]
+                }
+            },
+            "spl:health_400":{
+                "add": {
+                    "component_groups": [
+                        "spl:health_400"
+                    ]
+                }
+            },
+            "spl:health_40":{
+                "add": {
+                    "component_groups": [
+                        "spl:health_40"
+                    ]
+                }
+            },
+            "spl:health_1000":{
+                "add": {
+                    "component_groups": [
+                        "spl:health_1000"
+                    ]
+                }
+            },
+            "spl:health_10000":{
+                "add": {
+                    "component_groups": [
+                        "spl:health_10000"
+                    ]
+                }
+            },
+            "spl:health_muteki":{
+                "add": {
+                    "component_groups": [
+                        "spl:health_muteki"
+                    ]
+                }
+            },
+            "spl:scale_0.5":{
+                "add": {
+                    "component_groups": [
+                        "spl:scale_0.5"
+                    ]
+                }
+            },
+            "spl:scale_1.5":{
+                "add": {
+                    "component_groups": [
+                        "spl:scale_1.5"
+                    ]
+                }
+            },
+            "spl:scale_2":{
+                "add": {
+                    "component_groups": [
+                        "spl:scale_2"
+                    ]
+                }
+            }
+        }
+        }
+    }

@@ -1,0 +1,64 @@
+{
+    "format_version": "1.16.100",
+    "minecraft:entity": {
+    "description": {
+    "identifier": "spl:damage",
+    "is_spawnable": false,
+    "is_summonable": true,
+    "is_experimental": false,
+    "runtime_identifier": "minecraft:snowball"
+    },
+    "component_groups": {
+    "despawn": {
+    "minecraft:instant_despawn": {}
+    }
+    },
+    "components": {
+    "minecraft:timer": {
+            "looping": false,
+            "time": 0.8,
+            "randomInterval": false,
+            "time_down_event": {
+              "event": "despawn"
+            }},
+    "minecraft:collision_box": {
+    "width": 0.01,
+    "height": 0.01
+    },
+    "minecraft:projectile": {
+    "on_hit":  {
+    "stick_in_ground": {} 
+    },
+                    "power": 1,
+                    "gravity": 1,
+                    "inertia": 1.5,
+                    "uncertainty_base": 30,
+                    "uncertainty_multiplier": 0,
+                    "offset": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "catch_fire": false
+    },
+          "minecraft:nameable": {
+            "always_show": true,
+            "allow_name_tag_renaming": true
+          },
+          
+    "minecraft:physics": {
+    "has_collision": true, 
+    "has_gravity": true
+    }
+    },
+    "events": {
+              "despawn": {
+                "add": {
+                  "component_groups": [
+                    "despawn"
+                  ]
+                }
+              }
+    }
+    }
+    }

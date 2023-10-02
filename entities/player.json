@@ -1,0 +1,528 @@
+{
+  "format_version": "1.18.20",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "minecraft:player",
+      "is_spawnable": false,
+      "is_summonable": false,
+      "is_experimental": false,
+      "scripts": {
+        "animate": ["splatter_shot","animation_controllers"],
+        "pre_animation":["variable.guns = query.is_item_name_any('slot.weapon.mainhand',0,'spl:splatter_charger')||query.is_item_name_any('slot.weapon.mainhand',0,'spl:splatter_shot')||query.is_item_name_any('slot.weapon.mainhand',0,'spl:splatter_dualies');"]
+      },
+      "animations":{
+        "splatter_shot":"controller.animation.splatter_shot",
+        "spl:splatter_shot":"animation.splatter_shot",
+        "spl:tuyoi_shot":"animation.tuyoi_shot",
+        "spl:splatter_dualies_left":"animation.splatter_dualies_shot_left",
+        "spl:splatter_dualies_right":"animation.splatter_dualies_shot_right",
+        "spl:splatter_charger_fullcharge":"animation.splatter_charger_fullcharge",
+        "spl:splatter_charger_fullcharge_p":"animation.splatter_charger_fullcharge_p",
+        "spl:splatter_charger_fullcharge_effect":"animation.splatter_charger_fullcharge_effect",
+        "spl:splatter_charger_nocharge":"animation.splatter_charger_nocharge",
+        "spl:splatter_spiner":"animation.splatter_spiner",
+        "spl:splatter_roller_yoko_01":"animation.splatter_roller_yoko_01",
+        "spl:splatter_roller_yoko_02":"animation.splatter_roller_yoko_02",
+        "spl:splatter_roller_yoko_03":"animation.splatter_roller_yoko_03",
+        "spl:splatter_roller_tate":"animation.splatter_roller_tate",
+        "spl:brush":"animation.brush",
+        "spl:splatter_dualies_slide":"animation.splatter_dualies_slide",
+        "animation_controllers":"controller.animation.spl"
+      }
+    },
+
+    "component_groups": {
+      "minecraft:add_bad_omen": {
+        "minecraft:spell_effects": {
+          "add_effects": [
+            {
+              "effect": "bad_omen",
+              "duration": 6000,
+              "visible": false,
+              "display_on_screen_animation": true
+            }
+          ]
+        },
+        "minecraft:timer": {
+          "time": [ 0.0, 0.0 ],
+          "looping": false,
+          "time_down_event": {
+            "event": "minecraft:clear_add_bad_omen",
+            "target": "self"
+          }
+        }
+      },
+      "minecraft:clear_bad_omen_spell_effect": {
+        "minecraft:spell_effects": {
+        }
+      },
+      "minecraft:raid_trigger": {
+        "minecraft:raid_trigger": {
+          "triggered_event": {
+            "event": "minecraft:remove_raid_trigger",
+            "target": "self"
+          }
+        },
+        "minecraft:spell_effects": {
+          "remove_effects": "bad_omen"
+        }
+        },
+        "splatter_shot_shot":{
+          "minecraft:spawn_entity": {
+            "entities": [
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_shot_ink",
+                "spawn_event": "spl:splatter_shot"
+              }
+            ]
+          }
+        },
+        "tuyoi_shot_shot":{
+          "minecraft:spawn_entity": {
+            "entities": [
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_shot_ink",
+                "spawn_event": "spl:tuyoi_shot"
+              }
+            ]
+          }
+        },
+        "splatter_dualies_shot_left":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_dualies_ink",
+                "spawn_event": "spl:splatter_dualies_left"
+              }
+            ]
+          }
+        },
+        "splatter_dualies_shot_right":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_dualies_ink",
+                "spawn_event": "spl:splatter_dualies_right"
+              }
+            ]
+          }
+        },
+        "splatter_dualies_slide":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_dualies_ink",
+                "spawn_event": "spl:splatter_dualies_slide"
+              }
+            ]
+          }
+        },
+        "splatter_charger_fullcharge":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_charger_ink",
+                "spawn_event": "spl:splatter_charger_fullcharge"
+              }
+            ]
+          }
+        },
+        "splatter_charger_fullcharge_p":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_charger_ink_p",
+                "spawn_event": "spl:splatter_charger_fullcharge_p"
+              }
+            ]
+          }
+        },
+        "splatter_charger_fullcharge_effect":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_charger_ink_effect",
+                "spawn_event": "spl:splatter_charger_fullcharge"
+              }
+            ]
+          }
+        },
+        "splatter_charger_nocharge":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_charger_ink_no_charge",
+                "spawn_event": "spl:splatter_charger_nocharge"
+              }
+            ]
+          }
+        },
+        "splatter_spiner":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_spiner_ink",
+                "spawn_event": "spl:splatter_spiner"
+              }
+            ]
+          }
+        },
+        "splatter_roller_yoko_01":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_roller_ink",
+                "spawn_event": "spl:splatter_roller_01"
+              }
+            ]
+          }
+        },
+        "splatter_roller_yoko_02":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_roller_ink",
+                "spawn_event": "spl:splatter_roller_02"
+              }
+            ]
+          }
+        },
+        "splatter_roller_yoko_03":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_roller_ink",
+                "spawn_event": "spl:splatter_roller_03"
+              }
+            ]
+          }
+        },
+        "splatter_roller_tate":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:splatter_roller_ink_tate",
+                "spawn_event": "spl:splatter_roller_tate"
+              }
+            ]
+          }
+        },
+        "brush":{
+          "minecraft:spawn_entity": {
+            "entities":[
+              {
+                "min_wait_time": 0,
+                "max_wait_time": 0,
+                "single_use": true,
+                "spawn_entity": "spl:brush_ink",
+                "spawn_event": "spl:brush"
+              }
+            ]
+          }
+        }
+    },
+
+    "components": {
+      "minecraft:experience_reward": {
+        "on_death": "Math.Min(query.player_level * 7, 100)"
+      },
+      "minecraft:type_family": {
+        "family": [ "player" ]
+      },
+      "minecraft:is_hidden_when_invisible": {
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/empty.json"
+      },
+      "minecraft:collision_box": {
+        "width": 0.6,
+        "height": 1.8
+      },
+      "minecraft:can_climb": {
+      },
+      "minecraft:movement": {
+        "value": 0.1
+      },
+      "minecraft:hurt_on_condition": {
+        "damage_conditions": [
+          {
+            "filters": { "test": "in_lava", "subject": "self", "operator": "==", "value": true },
+            "cause": "lava",
+            "damage_per_tick": 4
+          }
+        ]
+      },
+      "minecraft:attack": {
+        "damage": 1
+      },
+      "minecraft:exhaustion_values": {
+        "heal": 6,
+        "jump": 0.05,
+        "sprint_jump": 0.2,
+        "mine": 0.005,
+        "attack": 0.1,
+        "damage": 0.1,
+        "walk": 0.0,
+        "sprint": 0.1,
+        "swim": 0.01
+      },
+      "minecraft:player.saturation": {
+        "value": 5,
+         "max": 20
+      },
+      "minecraft:player.exhaustion": {
+        "value": 0,
+        "max": 20
+      },
+      "minecraft:player.level": {
+        "value": 0,
+        "max": 24791
+      },
+      "minecraft:player.experience": {
+        "value": 0,
+        "max": 1
+      },
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": -1,
+        "inhale_time": 3.75,
+        "generates_bubbles": false
+      },
+      "minecraft:nameable": {
+        "always_show": true,
+        "allow_name_tag_renaming": false
+      },
+      "minecraft:physics": {
+        "push_towards_closest_space": true
+      },
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:insomnia": {
+        "days_until_insomnia": 3
+      },
+      "minecraft:rideable": {
+        "seat_count": 2,
+        "family_types": [
+          "parrot_tame"
+        ],
+        "pull_in_entities": true,
+        "seats": [
+          {
+            "position": [ 0.4, -0.2, -0.1 ],
+            "min_rider_count": 0,
+            "max_rider_count": 0,
+            "lock_rider_rotation": 0
+          },
+          {
+            "position": [ -0.4, -0.2, -0.1 ],
+            "min_rider_count": 1,
+            "max_rider_count": 2,
+            "lock_rider_rotation": 0
+          }
+        ]
+      },
+      "minecraft:conditional_bandwidth_optimization": {
+      },
+      "minecraft:block_climber": {},
+      "minecraft:environment_sensor": {
+        "triggers": {
+          "filters": {
+            "all_of": [
+              {
+                "test": "has_mob_effect",
+                "subject": "self",
+                "value": "bad_omen"
+              },
+              {
+                "test": "is_in_village",
+                "subject": "self",
+                "value": true
+              }
+            ]
+          },
+          "event": "minecraft:trigger_raid"
+        }
+      }
+    },
+
+    "events": {
+      "minecraft:gain_bad_omen": {
+        "add": {
+          "component_groups": [
+            "minecraft:add_bad_omen"
+          ]
+        }
+      },
+      "minecraft:clear_add_bad_omen": {
+        "remove": {
+          "component_groups": [
+            "minecraft:add_bad_omen"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "minecraft:clear_bad_omen_spell_effect"
+          ]
+        }
+      },
+      "minecraft:trigger_raid": {
+        "add": {
+          "component_groups": [ "minecraft:raid_trigger" ]
+        }
+      },
+      "minecraft:remove_raid_trigger": {
+        "remove": {
+          "component_groups": [ "minecraft:raid_trigger" ]
+        }
+      },
+      "spl:splatter_shot": {
+				"add": {
+					"component_groups": [
+						"splatter_shot_shot"
+					]
+				}
+			},
+      "spl:tuyoi_shot":{
+        "add": {
+          "component_groups": [
+            "tuyoi_shot_shot"
+          ]
+        }
+      },
+        "spl:splatter_dualies_left": {
+          "add": {
+            "component_groups": [
+              "splatter_dualies_shot_left"
+            ]
+          }
+        },
+        "spl:splatter_dualies_right": {
+          "add": {
+            "component_groups": [
+              "splatter_dualies_shot_right"
+            ]
+          }
+        },
+        "spl:splatter_charger_fullcharge":{
+          "add":{
+            "component_groups": [
+              "splatter_charger_fullcharge"
+            ]
+          }
+        },
+        "spl:splatter_charger_fullcharge_p":{
+          "add":{
+            "component_groups": [
+              "splatter_charger_fullcharge_p"
+            ]
+          }
+        },
+        "spl:splatter_charger_fullcharge_effect":{
+          "add":{
+            "component_groups": [
+              "splatter_charger_fullcharge_effect"
+            ]
+          }},
+          "spl:splatter_charger_nocharge":{
+            "add":{
+              "component_groups": [
+                "splatter_charger_nocharge"
+              ]
+            }
+          },
+          "spl:splatter_spiner":{
+            "add": {
+              "component_groups": [
+                "splatter_spiner"
+              ]
+            }
+         },
+         "spl:splatter_roller_yoko_01":{
+          "add":{
+            "component_groups": [
+              "splatter_roller_yoko_01"
+            ]
+          }
+         },
+         "spl:splatter_roller_yoko_02":{
+          "add":{
+            "component_groups": [
+              "splatter_roller_yoko_02"
+            ]
+          }
+         },
+         "spl:splatter_roller_yoko_03":{
+          "add":{
+            "component_groups": [
+              "splatter_roller_yoko_03"
+            ]
+          }
+         },
+         "spl:splatter_roller_tate":{
+          "add":{
+            "component_groups": [
+              "splatter_roller_tate"
+            ]
+          }
+         },
+         "spl:brush":{
+          "add":{
+            "component_groups": [
+              "brush"
+            ]
+          }
+         },
+         "spl:splatter_dualies_slide":{
+          "add": {
+            "component_groups": [
+              "splatter_dualies_slide"
+            ]
+          }
+         }
+        }
+      }
+}

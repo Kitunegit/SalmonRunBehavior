@@ -1,0 +1,21 @@
+{
+    "format_version":"1.19.0",
+    "minecraft:item":{
+        "description":{
+            "identifier":"spl:empty",
+			"category": "Equipment"
+        },
+        "components":{
+        "minecraft:icon":{
+            "texture": "empty"
+        },
+        "minecraft:allow_off_hand":true,
+        "minecraft:wearable":{
+            "slot":"slot.weapon.offhand"
+        }
+        
+        }
+        
+    }
+}
+

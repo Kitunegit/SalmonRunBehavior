@@ -1,0 +1,36 @@
+{
+    "format_version": "1.10.0",
+    "animation_controllers": {
+        "controller.animation.spl": {
+            "states": {
+                "default": {
+                    "transitions": [
+                        {
+                            "Squid":"query.is_sneaking"
+                        }
+                    ]
+                },
+                "Squid":{
+                    "on_entry": [                        
+                            "/playanimation @s sneaking"
+                    ],
+                    "transitions": [
+                        {
+                            "clear":"!query.is_sneaking"
+                        }
+                    ],
+                    "on_exit": [
+                        "/playanimation @s return_animation"
+                    ]
+                },
+                "clear":{
+                    "transitions": [
+                        {
+                            "default": "1.0"
+                        }
+                    ]
+                }
+            }
+            }
+            }
+        }

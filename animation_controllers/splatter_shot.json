@@ -1,0 +1,69 @@
+{
+    "format_version": "1.10.0",
+    "animation_controllers": {
+        "controller.animation.splatter_shot": {
+            "states": {
+                "default": {
+                    "transitions": [ 
+                        {
+                            "tuyoi_shot":"query.is_item_name_any('slot.weapon.mainhand',0,'spl:tuyoi_shot') && query.is_using_item && !query.is_sneaking"
+                        },
+                        {
+                            "jump":"query.is_jumping&&!query.is_sneaking"
+                        },
+                        {
+                            "splatter_spiner_detect":"query.is_item_name_any('slot.weapon.mainhand','0','spl:splatter_spiner') && !query.is_sneaking && query.is_using_item" 
+                        }
+                    ]
+                },
+                "clear":{
+                    "transitions": [
+                        {
+                            "default": "1.0"
+                        }
+                    ],
+                    "on_entry": [
+                        "/tag @s remove sneaking"
+                    ]
+                },
+                "tuyoi_shot":{
+                    "on_entry":[
+                        "/function weapons/tuyoi_shot/shot"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "1.0"
+                        }
+                    ],
+                    "animations": [
+                        "spl:tuyoi_shot"    
+                    ],
+                    "on_exit":[
+                        
+                    ]
+                },
+                "jump":{
+                    "on_entry": [
+                        "/tag @s add jump"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "!query.is_jumping"
+                        }
+                    ],
+                    "on_exit": [
+                        "/tag @s remove jump"
+                    ]
+                },
+                "splatter_spiner_detect":{
+                    
+                    "transitions": [
+                        {
+                            "default":"1.0"
+                        }
+                    ]
+                }
+            }
+            }
+            }
+        }

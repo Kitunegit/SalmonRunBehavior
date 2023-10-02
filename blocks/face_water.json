@@ -1,0 +1,35 @@
+{
+	"format_version": "1.19.40",
+	"minecraft:block": {
+		"description": {
+			"identifier": "spl:face_water",
+			"menu_category": {
+				"category": "construction"
+			}
+		},
+		"components": {
+			"minecraft:collision_box":{
+				"origin": [-8.0,0,-8.0],
+				"size": [16,16,16]
+			},
+			"minecraft:selection_box":{
+				"origin": [-8.0,0.0,-8.0],
+				"size": [16.0,16.0,16.0]
+			},
+			"minecraft:destructible_by_mining": {
+				"seconds_to_destroy": 150
+			},
+			"minecraft:destructible_by_explosion": {
+				"explosion_resistance": 200
+			},
+			"minecraft:geometry": "geometry.ink_block",
+			"minecraft:material_instances": {
+				"*": {
+					"texture": "face_water",
+					"render_method": "blend"
+				}
+			},
+			"minecraft:map_color": "#004600"
+		}
+	}
+}

@@ -1,0 +1,98 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "spl:splatter_roller_ink_tate",
+            "runtime_identifier": "minecraft:snowball",
+			"is_spawnable": false,
+			"is_summonable": true,
+			"is_experimental": false
+		},
+		"component_groups": {
+            "entity:despawn": {
+                "minecraft:despawn": {}
+            },
+            "spl:splatter_roller_tate": {
+            
+                "minecraft:projectile": {
+                "on_hit": {
+                    "remove_on_hit":{}
+            },
+            
+                "power": 1.8,
+                "gravity": 0,
+                "inertia": 0.99,
+                "angle_offset":0,
+                "uncertainty_base": 10,
+                "anchor": 1,
+                "reflect_on_hurt": false,
+                "catch_fire": false,
+                "offset":[0,0,0],
+                "multiple_targets":true
+            },
+            "minecraft:timer": {
+                "time": 0.5,
+                "time_down_event": {
+                    "event": "spl:ink_fall",
+                    "target": "self"
+                }
+            }
+        },
+        "spl:ink_fall":{
+            "minecraft:projectile": {
+                "on_hit": {
+                "remove_on_hit":{}
+            },
+            
+                "power": 0.45,
+                "gravity": 5,
+                "inertia": 0.99,
+                "angle_offset":-10,
+                "uncertainty_base": 6,
+                "anchor": 1,
+                "reflect_on_hurt": false,
+                "catch_fire": false,
+                "offset":[0,0.15,0]
+            }
+        }
+    },
+		"components": {
+			"minecraft:physics": {
+			},
+			"minecraft:collision_box": {
+				"width": 0.5,
+				"height": 0.5
+			  },
+			"minecraft:health": {
+				"value": 500,
+				"max": 500
+			},
+			"minecraft:pushable": {
+			  "is_pushable": false,
+			  "is_pushable_by_piston": false
+			},
+			"minecraft:knockback_resistance": {
+				"value": 1
+			}
+		},
+		"events": {
+            "entity:despawn": {
+                "add": {
+                    "component_groups": [ "entity:despawn" ]
+                }
+            },
+            "spl:splatter_roller_tate": {
+                "add": {
+                    "component_groups": [ "spl:splatter_roller_tate" ]
+                } 
+            },
+            "spl:ink_fall":{
+                "add": {
+                    "component_groups": [
+                        "spl:ink_fall"
+                    ]
+                }
+            }
+        }
+    }
+}
