@@ -1,0 +1,21 @@
+{
+    "format_version":"1.19.0",
+    "minecraft:item":{
+        "description":{
+            "identifier":"spl:tuyoi_shot",
+			"category": "Equipment"
+        },
+        "components":{
+        "minecraft:icon":{
+            "texture": "tuyoi_shot"
+        },
+        "minecraft:use_duration": 0.000001,
+        "minecraft:chargeable":{
+            
+        }
+        
+        }
+        
+    }
+}
+

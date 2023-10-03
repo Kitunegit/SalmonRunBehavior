@@ -1,0 +1,24 @@
+{
+    "format_version":"1.19.0",
+    "minecraft:item":{
+        "description":{
+            "identifier":"spl:stringer",
+			"category": "Equipment"
+        },
+        "components":{
+            "minecraft:creative_category": {
+                "parent": "itemGroup.name.sword"
+            },
+        "minecraft:icon":{
+            "texture": "stringer"
+        },
+        "minecraft:use_duration": 10000,
+        "minecraft:chargeable":{
+            "movement_modifier": 0.6
+        }
+        
+        }
+        
+    }
+}
+
