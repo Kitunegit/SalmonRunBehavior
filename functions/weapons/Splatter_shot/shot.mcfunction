@@ -14,4 +14,3 @@ execute at @s if score @s ink matches ..92 run playsound random.click @a ~~~ 0.8
 execute at @s if score @s ink matches 92.. run playsound mob.armor_stand.land @a ~~~ 2 0.8
 execute at @s if score @s ink matches 92.. run playsound mob.armor_stand.land @a ~~~ 2 0.6
 #function Inks/paint/shot_floor_paint
-playsound ghast
