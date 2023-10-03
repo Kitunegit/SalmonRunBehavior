@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "format_version":"1.19.0",
     "minecraft:item":{
@@ -22,3 +23,29 @@
     }
 }
 
+=======
+{
+    "format_version":"1.19.0",
+    "minecraft:item":{
+        "description":{
+            "identifier":"spl:splatter_dualies",
+			"category": "Equipment"
+        },
+        "components":{
+            "minecraft:creative_category": {
+                "parent": "itemGroup.name.sword"
+            },
+        "minecraft:icon":{
+            "texture": "splatter_dualies"
+        },
+        "minecraft:use_duration": 100000,
+        "minecraft:chargeable":{
+            "movement_modifier": 0.8
+        }
+        
+        }
+        
+    }
+}
+
+>>>>>>> 25b0089a70039344dee76b38cdde2531bf1ba16d

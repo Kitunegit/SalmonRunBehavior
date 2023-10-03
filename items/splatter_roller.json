@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "format_version":"1.19.0",
     "minecraft:item":{
@@ -21,3 +22,28 @@
     }
 }
 
+=======
+{
+    "format_version":"1.19.0",
+    "minecraft:item":{
+        "description":{
+            "identifier":"spl:splatter_roller",
+			"category": "Equipment"
+        },
+        "components":{
+            "minecraft:creative_category": {
+                "parent": "itemGroup.name.sword"
+            },
+        "minecraft:icon":{
+            "texture": "splatter_roller"
+        },
+        "minecraft:use_duration": 1000000,
+        "minecraft:chargeable":{
+            "movement_modifier": 1.12
+        }
+        }
+        
+    }
+}
+
+>>>>>>> 25b0089a70039344dee76b38cdde2531bf1ba16d
