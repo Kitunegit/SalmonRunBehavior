@@ -3,8 +3,8 @@
     "header": {
       "name": "SalmonRunPack",
       "description": "RUN!",
-      "version": [1, 5,7],
-      "uuid": "26fee8a4-dab3-4a82-b2f5-cd4d163cef24",
+      "version": [1,0,0],
+      "uuid": "b4534b06-f521-4bbd-93d4-b1fda05606ee",
       
       "min_engine_version": [1, 19, 50]
     },
@@ -13,8 +13,8 @@
         "type": "script",
         "description": "",
         "entry": "scripts/main.js",
-        "version": [1, 5,7],
-        "uuid": "e03c41bd-73f1-481c-9db5-7cba6aa173bb"
+        "version": [1,0,0],
+        "uuid": "8801698d-cc31-4074-b629-608a7a03578d"
       }
     ],
     "dependencies": [
