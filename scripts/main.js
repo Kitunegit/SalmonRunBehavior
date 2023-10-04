@@ -1,5 +1,6 @@
 import { world, system, BlockPermutation } from "@minecraft/server";
 import * as Score from "./getscore.js";
+import "./weapons/shooter.js";
 
 const overworld = world.getDimension(`overworld`);
 const players = overworld.getPlayers();
@@ -40,7 +41,7 @@ system.runInterval(()=>{
     }
 });
 
-const itemTagMap = {
+/*const itemTagMap = {
     "spl:splatter_shot": "splatter_shooting",
     "spl:splatter_dualies": "splatter_dualies_shot",
     "spl:splatter_charger": "splatter_charger_shot",
@@ -82,7 +83,7 @@ world.afterEvents.itemStopUse.subscribe(ev => {
         Score.Set(`spl_chrgr_count`, source, 0);
     }
 });
-
+*/
 
 world.afterEvents.entityHurt.subscribe(ev => {
     const { hurtEntity } = ev;
