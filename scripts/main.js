@@ -154,9 +154,10 @@ world.afterEvents.projectileHitBlock.subscribe(ev => {
     if(projectile.typeId == "spl:splash_ink")
     {
         world.getDimension("overworld").fillBlocks({x:location.x-0.75,y:location.y-0.75,z:location.z-0.75},{x:location.x+0.75,y:location.x+0.75,z:location.z+0.75}, BlockPermutation.resolve("spl:ink_block_orange"), { matchingBlock: BlockPermutation.resolve("minecraft:stone") });
+        world.getDimension("overworld").fillBlocks({x:location.x-0.75,y:location.y-0.75,z:location.z-0.75},{x:location.x+0.75,y:location.x+0.75,z:location.z+0.75}, BlockPermutation.resolve("spl:ink_block_orange"), { matchingBlock: BlockPermutation.resolve("spl:ink_block_darkgreen") });
         //projectile.runCommandAsync(`/fill ${location.x-0.75} ${location.y-0.5} ${location.z-0.75} ${location.x+0.75} ${location.y-0.5} ${location.z+0.75} spl:ink_block_orange replace stone`);
         //projectile.runCommandAsync(`/particle minecraft:dragon_death_explosion_emitter ${Math.round(location.x)} ${Math.round(location.y+2)} ${Math.round(location.z)}`);
-        projectile.runCommandAsync(`/say ${Math.round(location.x)} ${Math.round(location.y)} ${Math.round(location.z)}`);
+        //projectile.runCommandAsync(`/say ${Math.round(location.x)} ${Math.round(location.y)} ${Math.round(location.z)}`);
         //projectile.runCommandAsync(`/setblock ${Math.round(location.x)} ${Math.round(location.y+2)} ${Math.round(location.z)} planks`)
     }
     projectile.kill()
