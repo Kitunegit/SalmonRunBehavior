@@ -2,14 +2,15 @@ import { world, system, Vector } from "@minecraft/server";
 
 import * as Score from "../getscore.js";
 
-import { dropletsDataBase } from "../splatTest/droplets.js";
+import { dropletsDataBase, DropletsPattern } from "../splatTest/droplets.js";
 
 const weaponsDataBase = {
     "spl:splatter_shot": {
         shotDelay: 2,
-        useInk:92,
+        useInk: 92,
         eventName:"spl:splatter_shot",
-        weaponType:"Shooter"
+        weaponType:"Shooter",
+        dropletsPattern: new DropletsPattern([3, 9, 6])
     }
 };
 
@@ -17,6 +18,7 @@ const playerUsingItemMap = new Map();
 
 //右クリ開始
 world.afterEvents.itemStartUse.subscribe(({ source, itemStack }) => {
+    dropletsDataBase.set(source, weaponsDataBase[itemStack.typeId].dropletsPattern);
     playerUsingItemMap.set(source, itemStack);
 });
 
@@ -28,7 +30,6 @@ world.afterEvents.itemStopUse.subscribe(({ source }) => {
 export const projectileOwnerDataBase = new Map();
 
 system.runInterval(() => {
-
     world.getAllPlayers().forEach(player => {
         //情報取得
         const itemStack = playerUsingItemMap.get(player);
@@ -41,7 +42,6 @@ system.runInterval(() => {
             projectileOwnerDataBase.set(projectile, player.id);
             projectile.triggerEvent("spl:splatter_shot");
             projectile.applyImpulse(Vector.multiply(player.getViewDirection(), 3));
-            projectile.addEffect("invisibility", 10000);
 
             Score.Set(`shot_cool`,player,weaponData.shotDelay);
             player.playSound("mob.armor_stand.land", { volume: 1, pitch: 0.6 });

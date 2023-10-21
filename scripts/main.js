@@ -12,8 +12,7 @@ const overworld = world.getDimension(`overworld`);
 const players = overworld.getPlayers();
 
 system.runInterval(() => {
-    const options = {};
-    const HealthEntity = overworld.getEntities(options).filter(entity => entity.hasComponent("health"));
+    const HealthEntity = overworld.getEntities().filter(entity => entity.hasComponent("health"));
     for (const entity of HealthEntity) {
         const health = entity.getComponent("health");
 
