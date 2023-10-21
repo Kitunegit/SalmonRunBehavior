@@ -1,33 +1,10 @@
 import { world, system, Vector, BlockPermutation } from "@minecraft/server";
 
-import * as Score from "../getscore.js";
+import * as Score from "../functions/getScore.js";
 
-import { dropletsDataBase, DropletsPattern } from "../splatTest/droplets.js";
+import { dropletsDataBase } from "../droplets/droplets.js";
 
-const weaponsDataBase = {
-    "spl:splatter_shot": {
-        shotDelay: 2,
-        useInk: 92,
-        eventName:"spl:splatter_shot",
-        weaponType:"Shooter",
-        dropletsPattern: new DropletsPattern([3, 9, 6])
-    }
-};
-
-const playerUsingItemMap = new Map();
-
-//右クリ開始
-world.afterEvents.itemStartUse.subscribe(({ source, itemStack }) => {
-    dropletsDataBase.set(source, weaponsDataBase[itemStack.typeId].dropletsPattern);
-    playerUsingItemMap.set(source, itemStack);
-});
-
-//右クリ終了
-world.afterEvents.itemStopUse.subscribe(({ source }) => {
-    playerUsingItemMap.delete(source);
-});
-
-export const projectileOwnerDataBase = new Map();
+import { playerUsingItemMap, weaponsDataBase, projectileOwnerDataBase } from "./index.js";
 
 system.runInterval(() => {
     world.getAllPlayers().forEach(player => {
@@ -65,13 +42,13 @@ system.runInterval(() => {
             entity.dimension.spawnParticle("spl:moves", entity.location);
             if (entity.isOnGround) {
                 entity.dimension.fillBlocks(
-                    Vector.add(entity.location, Vector.down),
+                    entity.location,
                     Vector.add(entity.location, Vector.down),
                     BlockPermutation.resolve("spl:ink_block_orange"),
                     { matchingBlock: BlockPermutation.resolve("minecraft:stone") }
                 );
                 entity.dimension.fillBlocks(
-                    Vector.add(entity.location, Vector.down),
+                    entity.location,
                     Vector.add(entity.location, Vector.down),
                     BlockPermutation.resolve("spl:ink_block_orange"),
                     { matchingBlock: BlockPermutation.resolve("spl:ink_block_darkgreen") }

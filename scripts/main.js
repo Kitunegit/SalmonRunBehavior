@@ -1,36 +1,20 @@
 import { world, system, BlockPermutation, Vector } from "@minecraft/server";
 
-import * as Score from "./getscore.js";
+import * as Score from "./functions/getScore.js";
 
-import "./weapons/shooter.js";
+import "./weapons/index.js";
 
-import { dropletsDataBase, DropletsPattern } from "./splatTest/index.js";
+import { scoreboardObjectiveNames, projectileDamageMap } from "./config.js";
 
-import { projectileOwnerDataBase } from "./weapons/shooter.js";
+import { projectileOwnerDataBase } from "./weapons/index.js";
 
-const objectiveNames = ["ink_rd", "dmg_ct_cl", "damage", "damage_time"];
-for (const objectiveName of objectiveNames) {
+for (const objectiveName of scoreboardObjectiveNames) {
     if (world.scoreboard.getObjective(objectiveName)) continue;
     world.scoreboard.addObjective(objectiveName, objectiveName);
 }
 
-const overworld = world.getDimension(`overworld`);
-const players = overworld.getPlayers();
-
 system.runInterval(() => {
-    const HealthEntity = overworld.getEntities().filter(entity => entity.hasComponent("health"));
-    for (const entity of HealthEntity) {
-        const health = entity.getComponent("health");
-
-        if (health.current != health.value && health.value === 100000000) {
-            entity.nameTag = `§c§l${Math.round(health.current)}§r/§a${health.value}§c`;
-        } else if (health.value === 100000000) {
-            entity.nameTag = `§k§l§1aaa§r§l§0infinity§r§k§1aaa`;
-        } else {
-            entity.nameTag = ``;
-        }
-    }
-    for(const player of players) {
+    for (const player of world.getAllPlayers()) {
         if (player.hasTag(`slide_move`)) {
             player.applyKnockback(Math.round(player.getVelocity().x * 100), Math.round(player.getVelocity().z * 100), 1, -0.5);
             player.removeTag(`slide_move`);
@@ -96,21 +80,14 @@ world.afterEvents.itemStopUse.subscribe(ev => {
 });
 */
 
-world.afterEvents.entityHurt.subscribe(ev => {
-    const { hurtEntity } = ev;
-    
-    if (/*hurtEntity?.typeId === `spl:dummy` && */ev.damage > 1) {
-        let damage = Score.Get(`damage`, hurtEntity);
-        
-        const damageEntity = overworld.spawnEntity(`spl:damage`, {
-            x: hurtEntity.location.x,
-            y: hurtEntity.location.y + 0.2,
-            z: hurtEntity.location.z+Math.random() * 2 - 1
-        });
-        Score.Set(`damage`, hurtEntity, damage + ev.damage);
-        Score.Set(`damage_ct_cl`, hurtEntity, 20);
-        
-        damageEntity.nameTag = `§l§a${Math.floor(damage + ev.damage)}`;
+world.afterEvents.entityHurt.subscribe(({ hurtEntity, damage }) => {
+    if (/*hurtEntity.typeId === "spl:dummy" && */damage > 1) {
+        const scoreDamage = Score.Get("damage", hurtEntity);
+        const damageDisplay = hurtEntity.dimension.spawnEntity("spl:damage", Vector.add(hurtEntity.location, { x: 0, y: 0.2, z: Math.random() * 2 - 1 }));
+        Score.Set("damage", hurtEntity, damage + scoreDamage);
+        Score.Set("damage_ct_cl", hurtEntity, 20);
+
+        damageDisplay.nameTag = "§l§a" + Math.floor(damage + scoreDamage).toString();
     }
 });
 
@@ -122,47 +99,31 @@ system.runInterval(() => {
 });
 
 world.afterEvents.projectileHitEntity.subscribe(ev => {
-  // プロジェクタイルのダメージ値マップ
-    const damageMap = {
-        "spl:splatter_shot_ink": { bs_dmg: 36, rmv_dmg_divisor: 6 },
-        "spl:splatter_charger_ink": { bs_dmg: 25, rmv_dmg_divisor: 1 },
-        "spl:splatter_dualies_ink": { bs_dmg: 6, rmv_dmg_divisor: 8 },
-        "spl:splatter_spiner_ink": { bs_dmg: 6, rmv_dmg_divisor: 1 },
-        "spl:splatter_charger_ink_no_charge": { bs_dmg: 8, rmv_dmg_divisor: 1 },
-        "spl:brush_ink": { bs_dmg: 36, rmv_dmg_divisor: 1 },
-        "spl:splatter_roller_ink": { bs_dmg: 13, rmv_dmg_divisor: 1 },
-        "spl:splatter_roller_ink_tate": { bs_dmg: 13, rmv_dmg_divisor: 1 }
-    };
-
-    const projectile = ev.projectile;
+    const { projectile, source } = ev;
     const typeId = projectile.typeId;
 
     if (typeId !== `spl:damage` && typeId !== `spl:splash_ink`) {
         // ダメージ情報の取得
-        const damageInfo = damageMap[typeId] || { bs_dmg: 0, rmv_dmg_divisor: 1 };
+        const damageInfo = projectileDamageMap[typeId] || { bs_dmg: 0, rmv_dmg_divisor: 1 };
         const bs_dmg = damageInfo.bs_dmg;
         const rmv_dmg = Score.Get(`ink_rd`, projectile) / damageInfo.rmv_dmg_divisor;
 
         // ダメージの適用
         const entityHit = ev.getEntityHit().entity;
         const totalDamage = bs_dmg - rmv_dmg;
+
         // totalDamageがNaNでないかチェック
-        if (!isNaN(totalDamage) && world.getEntity(entityHit.id)) {
+        if (isNaN(totalDamage)) return;
+
+        if (world.getEntity(entityHit.id)) {
             if (entityHit.typeId === "minecraft:armor_stand" || projectileOwnerDataBase.get(projectile) === entityHit.id) return;
             entityHit.applyDamage(totalDamage, { cause: "suicide" });
-        }
-        else {
-            // NaNの場合、エラーメッセージを出力またはデフォルト値を適用できます
-            //console.error("Total damage is NaN. Check your calculations.");
-            // あるいはデフォルト値を適用する場合
-            // totalDamage = 0; など
         }
 
         if (world.getEntity(projectile.id)) projectile.kill();
 
         // ダメージを追跡
-        let dmg = Score.Get('hit_damage', ev.source) + totalDamage;
-        Score.Set('hit_damage', ev.source, dmg);
+        Score.Add('hit_damage', source, totalDamage);
     }
 });
 
@@ -182,9 +143,4 @@ world.afterEvents.projectileHitBlock.subscribe(({ location, projectile, dimensio
         );
     }
     if (world.getEntity(projectile.id)) projectile.kill();
-});
-
-
-world.getAllPlayers().forEach(player => {
-    dropletsDataBase.set(player, new DropletsPattern([3, 9, 6]));
 });

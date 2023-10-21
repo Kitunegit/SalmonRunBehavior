@@ -30,27 +30,3 @@ export class Droplets {
 }
 
 export const dropletsDataBase = new Map();
-
-world.getAllPlayers().forEach(player => {
-    dropletsDataBase.set(player, new DropletsPattern([5, 10, 15]));
-});
-
-world.afterEvents.itemUse.subscribe(({ source, itemStack }) => {
-    if (itemStack.typeId !== "minecraft:blaze_rod") return;
-
-    const droplets = dropletsDataBase.get(source).rand(source.location, 3);
-
-    const playerViewDir = source.getViewDirection();
-    const projectile = source.dimension.spawnEntity("armor_stand", Vector.add(source.location, playerViewDir));
-
-    projectile.setRotation(source.getRotation());
-    projectile.applyImpulse(Vector.multiply(playerViewDir, 5));
-
-    const runId = system.runInterval(() => {
-        if (!world.getEntity(projectile.id)) {
-            system.clearRun(runId);
-            return;
-        }
-        droplets.fly(projectile);
-    });
-});
