@@ -1,12 +1,5 @@
-# 
-scoreboard objectives add ink_rd dummy
-scoreboard objectives add dmg_ct_cl dummy
-scoreboard objectives add damage dummy
-scoreboard objectives add damage_time dummy
 #パーティクル
-execute as @e[tag=ink] at @s run particle spl:shot
 execute as @e[type=spl:brush_ink] at @s run particle spl:brush
-scoreboard players add @e[tag=ink] ink_rd 0
 scoreboard players add @e[type=spl:splatter_shot_ink,scores={ink_rd=..36}] ink_rd 1
 scoreboard players set @e[type=spl:splatter_shot_ink,scores={ink_rd=36..}] ink_rd 36
 scoreboard players add @e[type=spl:splatter_spiner_ink,scores={ink_rd=..10}] ink_rd 1

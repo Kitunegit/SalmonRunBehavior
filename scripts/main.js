@@ -1,4 +1,4 @@
-import { world, system, BlockPermutation, Vector, EntityInitializationCause } from "@minecraft/server";
+import { world, system, BlockPermutation, Vector } from "@minecraft/server";
 
 import * as Score from "./getscore.js";
 
@@ -7,6 +7,12 @@ import "./weapons/shooter.js";
 import { dropletsDataBase, DropletsPattern } from "./splatTest/index.js";
 
 import { projectileOwnerDataBase } from "./weapons/shooter.js";
+
+const objectiveNames = ["ink_rd", "dmg_ct_cl", "damage", "damage_time"];
+for (const objectiveName of objectiveNames) {
+    if (world.scoreboard.getObjective(objectiveName)) continue;
+    world.scoreboard.addObjective(objectiveName, objectiveName);
+}
 
 const overworld = world.getDimension(`overworld`);
 const players = overworld.getPlayers();
@@ -106,6 +112,13 @@ world.afterEvents.entityHurt.subscribe(ev => {
         
         damageEntity.nameTag = `§l§a${Math.floor(damage + ev.damage)}`;
     }
+});
+
+system.runInterval(() => {
+    world.getDimension("overworld").getEntities({ tags: ["ink"] }).forEach(entity => {
+        entity.dimension.spawnParticle("spl:shot", entity.location);
+        world.scoreboard.getObjective("ink_rd").addScore(entity, 0);
+    });
 });
 
 world.afterEvents.projectileHitEntity.subscribe(ev => {
