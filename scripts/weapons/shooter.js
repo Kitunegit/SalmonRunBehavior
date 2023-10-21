@@ -15,10 +15,12 @@ const weaponsDataBase = {
 
 const playerUsingItemMap = new Map();
 
+//右クリ開始
 world.afterEvents.itemStartUse.subscribe(({ source, itemStack }) => {
     playerUsingItemMap.set(source, itemStack);
 });
 
+//右クリ終了
 world.afterEvents.itemStopUse.subscribe(({ source }) => {
     playerUsingItemMap.delete(source);
 });
@@ -26,7 +28,9 @@ world.afterEvents.itemStopUse.subscribe(({ source }) => {
 export const projectileOwnerDataBase = new Map();
 
 system.runInterval(() => {
+
     world.getAllPlayers().forEach(player => {
+        //情報取得
         const itemStack = playerUsingItemMap.get(player);
         if (!itemStack) return;
         const weaponData = weaponsDataBase[itemStack.typeId];
