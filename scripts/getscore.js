@@ -1,21 +1,25 @@
 import { world } from '@minecraft/server';
 
 /**
- * @param {import('@minecraft/server').Player|import('@minecraft/server').Entity|string} target
  * @param {string} objective
- * @returns {number|null}
+ * @param {import('@minecraft/server').Entity | import("@minecraft/server").ScoreboardIdentity | string} target
+ * @returns {number | null}
  */
 export function Get(objective, target) {
     try {
         return world.scoreboard.getObjective(objective).getScore(target) ?? 0;
-    } catch (e) {
-        console.error(e, e.stack);
-        return null;
     }
+    catch (e) { return null; }
 }
-export function Set(objective,target,number) {
+
+/**
+ * @param {string} objective 
+ * @param {import("@minecraft/server").Entity | import("@minecraft/server").ScoreboardIdentity | string} target 
+ * @param {number} value
+ */
+export function Set(objective, target, value) {
     try {
-        world.scoreboard.getObjective(objective).setScore(target,number);
+        world.scoreboard.getObjective(objective).setScore(target, value);
     }
-    catch(e){ return true;}
+    catch (e) {}
 }

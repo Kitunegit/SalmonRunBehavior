@@ -1,11 +1,17 @@
-import { world, system, BlockPermutation } from "@minecraft/server";
+import { world, system, BlockPermutation, Vector, EntityInitializationCause } from "@minecraft/server";
+
 import * as Score from "./getscore.js";
+
 import "./weapons/shooter.js";
+
+import { dropletsDataBase, DropletsPattern } from "./splatTest/index.js";
+
+import { projectileOwnerDataBase } from "./weapons/shooter.js";
 
 const overworld = world.getDimension(`overworld`);
 const players = overworld.getPlayers();
 
-system.runInterval(()=>{
+system.runInterval(() => {
     const options = {};
     const HealthEntity = overworld.getEntities(options).filter(entity => entity.hasComponent("health"));
     for (const entity of HealthEntity) {
@@ -22,7 +28,7 @@ system.runInterval(()=>{
     for(const player of players) {
         if (player.hasTag(`slide_move`)) {
             player.applyKnockback(Math.round(player.getVelocity().x * 100), Math.round(player.getVelocity().z * 100), 1, -0.5);
-            player.removeTag(`slide_move`);;
+            player.removeTag(`slide_move`);
         }
         if (player.hasTag(`back_knock`)) {
             player.applyKnockback(Math.round(player.getVelocity().x * 100) * -1, Math.round(player.getVelocity().z * 100) * -1, 3, -0.5);
@@ -31,7 +37,7 @@ system.runInterval(()=>{
         if (Score.Get(`stop`, player) > 1) {
             player.isSneaking = false;
         }
-        if(player.hasTag(`lowJump`)) {
+        if (player.hasTag(`lowJump`)) {
             player.applyKnockback(Math.round(player.getVelocity().x * 100),Math.round(player.getVelocity().z * 100),3,0);
             player.removeTag(`lowJump`);
         }
@@ -105,60 +111,68 @@ world.afterEvents.entityHurt.subscribe(ev => {
 
 world.afterEvents.projectileHitEntity.subscribe(ev => {
   // プロジェクタイルのダメージ値マップ
-  const damageMap = {
-      "spl:splatter_shot_ink": { bs_dmg: 36, rmv_dmg_divisor: 6 },
-      "spl:splatter_charger_ink": { bs_dmg: 25, rmv_dmg_divisor: 1 },
-      "spl:splatter_dualies_ink": { bs_dmg: 6, rmv_dmg_divisor: 8 },
-      "spl:splatter_spiner_ink": { bs_dmg: 6, rmv_dmg_divisor: 1 },
-      "spl:splatter_charger_ink_no_charge": { bs_dmg: 8, rmv_dmg_divisor: 1 },
-      "spl:brush_ink": { bs_dmg: 36, rmv_dmg_divisor: 1 },
-      "spl:splatter_roller_ink": { bs_dmg: 13, rmv_dmg_divisor: 1 },
-      "spl:splatter_roller_ink_tate": { bs_dmg: 13, rmv_dmg_divisor: 1 }
-  };
+    const damageMap = {
+        "spl:splatter_shot_ink": { bs_dmg: 36, rmv_dmg_divisor: 6 },
+        "spl:splatter_charger_ink": { bs_dmg: 25, rmv_dmg_divisor: 1 },
+        "spl:splatter_dualies_ink": { bs_dmg: 6, rmv_dmg_divisor: 8 },
+        "spl:splatter_spiner_ink": { bs_dmg: 6, rmv_dmg_divisor: 1 },
+        "spl:splatter_charger_ink_no_charge": { bs_dmg: 8, rmv_dmg_divisor: 1 },
+        "spl:brush_ink": { bs_dmg: 36, rmv_dmg_divisor: 1 },
+        "spl:splatter_roller_ink": { bs_dmg: 13, rmv_dmg_divisor: 1 },
+        "spl:splatter_roller_ink_tate": { bs_dmg: 13, rmv_dmg_divisor: 1 }
+    };
 
-  const projectile = ev.projectile;
-  const typeId = projectile.typeId;
-  if(typeId !=`spl:damage`&&typeId !=`spl:splash_ink`)
-  {
-  // ダメージ情報の取得
-  const damageInfo = damageMap[typeId] || { bs_dmg: 0, rmv_dmg_divisor: 1 };
-  const bs_dmg = damageInfo.bs_dmg;
-  const rmv_dmg = Score.Get(`ink_rd`, projectile) / damageInfo.rmv_dmg_divisor;
+    const projectile = ev.projectile;
+    const typeId = projectile.typeId;
 
-  // ダメージの適用
-  const entityHit = ev.getEntityHit().entity;
-  const totalDamage = bs_dmg - rmv_dmg;
-  // totalDamageがNaNでないかチェック
-  if (!isNaN(totalDamage)) {
-      entityHit.applyDamage(totalDamage, { cause: "suicide" });
-  } else {
-      // NaNの場合、エラーメッセージを出力またはデフォルト値を適用できます
-      console.error("Total damage is NaN. Check your calculations.");
-      // あるいはデフォルト値を適用する場合
-      // totalDamage = 0; など
-  }
+    if (typeId !== `spl:damage` && typeId !== `spl:splash_ink`) {
+        // ダメージ情報の取得
+        const damageInfo = damageMap[typeId] || { bs_dmg: 0, rmv_dmg_divisor: 1 };
+        const bs_dmg = damageInfo.bs_dmg;
+        const rmv_dmg = Score.Get(`ink_rd`, projectile) / damageInfo.rmv_dmg_divisor;
 
-  projectile.kill();
+        // ダメージの適用
+        const entityHit = ev.getEntityHit().entity;
+        const totalDamage = bs_dmg - rmv_dmg;
+        // totalDamageがNaNでないかチェック
+        if (!isNaN(totalDamage) && world.getEntity(entityHit.id)) {
+            if (entityHit.typeId === "minecraft:armor_stand" || projectileOwnerDataBase.get(projectile) === entityHit.id) return;
+            entityHit.applyDamage(totalDamage, { cause: "suicide" });
+        }
+        else {
+            // NaNの場合、エラーメッセージを出力またはデフォルト値を適用できます
+            //console.error("Total damage is NaN. Check your calculations.");
+            // あるいはデフォルト値を適用する場合
+            // totalDamage = 0; など
+        }
 
-  // ダメージを追跡
-  let dmg = Score.Get('hit_damage', ev.source) + totalDamage;
-  Score.Set('hit_damage', ev.source, dmg);
-}
+        projectile.kill();
+
+        // ダメージを追跡
+        let dmg = Score.Get('hit_damage', ev.source) + totalDamage;
+        Score.Set('hit_damage', ev.source, dmg);
+    }
+});
+
+world.afterEvents.projectileHitBlock.subscribe(({ location, projectile, dimension }) => {
+    if (projectile.typeId === "spl:splash_ink") {
+        dimension.fillBlocks(
+            Vector.add(location, { x: -0.75, y: -0.75 - 1, z: -0.75 }),
+            Vector.add(location, { x: 0.75, y: 0.75 - 1, z: 0.75 }),
+            BlockPermutation.resolve("spl:ink_block_orange"),
+            { matchingBlock: BlockPermutation.resolve("minecraft:stone") }
+        );
+        dimension.fillBlocks(
+            Vector.add(location, { x: -0.75, y: -0.75 - 1, z: -0.75 }),
+            Vector.add(location, { x: 0.75, y: 0.75 - 1, z: 0.75 }),
+            BlockPermutation.resolve("spl:ink_block_orange"),
+            { matchingBlock: BlockPermutation.resolve("spl:ink_block_darkgreen") }
+        );
+    }
+    if (world.getEntity(projectile.id)) projectile.kill();
 });
 
 
-world.afterEvents.projectileHitBlock.subscribe(ev => {
-    const location = ev.location;
-    location.y -= 1
-    const projectile = ev.projectile;
-    if(projectile.typeId == "spl:splash_ink")
-    {
-        world.getDimension("overworld").fillBlocks({x:location.x-0.75,y:location.y-0.75,z:location.z-0.75},{x:location.x+0.75,y:location.x+0.75,z:location.z+0.75}, BlockPermutation.resolve("spl:ink_block_orange"), { matchingBlock: BlockPermutation.resolve("minecraft:stone") });
-        world.getDimension("overworld").fillBlocks({x:location.x-0.75,y:location.y-0.75,z:location.z-0.75},{x:location.x+0.75,y:location.x+0.75,z:location.z+0.75}, BlockPermutation.resolve("spl:ink_block_orange"), { matchingBlock: BlockPermutation.resolve("spl:ink_block_darkgreen") });
-        //projectile.runCommandAsync(`/fill ${location.x-0.75} ${location.y-0.5} ${location.z-0.75} ${location.x+0.75} ${location.y-0.5} ${location.z+0.75} spl:ink_block_orange replace stone`);
-        //projectile.runCommandAsync(`/particle minecraft:dragon_death_explosion_emitter ${Math.round(location.x)} ${Math.round(location.y+2)} ${Math.round(location.z)}`);
-        //projectile.runCommandAsync(`/say ${Math.round(location.x)} ${Math.round(location.y)} ${Math.round(location.z)}`);
-        //projectile.runCommandAsync(`/setblock ${Math.round(location.x)} ${Math.round(location.y+2)} ${Math.round(location.z)} planks`)
-    }
-    projectile.kill()
-})
+world.getAllPlayers().forEach(player => {
+    dropletsDataBase.set(player, new DropletsPattern([3, 9, 6]));
+});
