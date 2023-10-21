@@ -158,7 +158,7 @@ world.afterEvents.projectileHitEntity.subscribe(ev => {
             // totalDamage = 0; など
         }
 
-        projectile.kill();
+        if (world.getEntity(projectile.id)) projectile.kill();
 
         // ダメージを追跡
         let dmg = Score.Get('hit_damage', ev.source) + totalDamage;

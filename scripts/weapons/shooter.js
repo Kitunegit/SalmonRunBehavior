@@ -1,4 +1,4 @@
-import { world, system, Vector } from "@minecraft/server";
+import { world, system, Vector, BlockPermutation } from "@minecraft/server";
 
 import * as Score from "../getscore.js";
 
@@ -63,7 +63,21 @@ system.runInterval(() => {
             if (!world.getEntity(entity.id)) return;
             //entity.addEffect("invisibility", 10000000);
             entity.dimension.spawnParticle("spl:moves", entity.location);
-            if (entity.isOnGround) entity.kill();
+            if (entity.isOnGround) {
+                entity.dimension.fillBlocks(
+                    Vector.add(entity.location, Vector.down),
+                    Vector.add(entity.location, Vector.down),
+                    BlockPermutation.resolve("spl:ink_block_orange"),
+                    { matchingBlock: BlockPermutation.resolve("minecraft:stone") }
+                );
+                entity.dimension.fillBlocks(
+                    Vector.add(entity.location, Vector.down),
+                    Vector.add(entity.location, Vector.down),
+                    BlockPermutation.resolve("spl:ink_block_orange"),
+                    { matchingBlock: BlockPermutation.resolve("spl:ink_block_darkgreen") }
+                );
+                entity.kill();
+            }
         }
         catch (e) {}
     });
